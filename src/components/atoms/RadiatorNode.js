@@ -3,6 +3,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import SvgIcon from '@material-ui/core/SvgIcon';
+import ReportRoundedIcon from '@material-ui/icons/ReportRounded';
 import Popper from '@material-ui/core/Popper';
 import PopupState, { bindToggle, bindPopper } from 'material-ui-popup-state';
 import Fade from '@material-ui/core/Fade';
@@ -56,7 +57,10 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     padding: 0,
-  }
+  },
+  goodRadiatorNode: {
+    color: '#88B447',
+  },
 }));
 
 export default function RadiatorNode(props) {
@@ -68,10 +72,7 @@ export default function RadiatorNode(props) {
     props.node.room_temperature < roomMin ||
     props.node.room_temperature > roomMax;
   const offlineNode = (props.now - props.node.last_message) > lastMessageMax;
-
-  let color = 'inherit';
-  if(offlineNode) color = 'disabled';
-  if(coldNode) color = 'error';
+  const goodNode = !coldNode && !offlineNode;
 
   const nowTime = new Date(props.now);
   const lastMessageTime = new Date(props.node.last_message);
@@ -86,14 +87,31 @@ export default function RadiatorNode(props) {
       {(popupState) => (
         <div>
           <IconButton className={classes.button} {...bindToggle(popupState)}>
-            <SvgIcon 
-              aria-label='Radiator Node'
-              component={RadiatorNodeIcon} 
-              viewBox="0 0 600 600" 
-              fontSize = 'large'
-              className={classes.radiatorNode} 
-              color={color}
-            />
+            {goodNode &&
+              <SvgIcon 
+                aria-label='Radiator Node'
+                component={RadiatorNodeIcon} 
+                viewBox="0 0 600 600" 
+                fontSize = 'large'
+                className={classes.goodRadiatorNode} 
+              />
+            }
+            {offlineNode && 
+              <SvgIcon 
+                aria-label='Radiator Node'
+                component={RadiatorNodeIcon} 
+                viewBox="0 0 600 600" 
+                fontSize = 'large'
+                color = 'disabled'
+              />            
+            }
+            {coldNode &&
+              <ReportRoundedIcon
+                aria-label='Radiator Node'
+                fontSize = 'large'
+                color = 'error'
+              />         
+            }
           </IconButton>
           <Popper {...bindPopper(popupState)} transition>
             {({ TransitionProps }) => (

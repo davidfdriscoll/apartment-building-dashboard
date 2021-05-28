@@ -1,8 +1,7 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
-import Unit from "../../components/atoms/Unit";
-import Typography from "@material-ui/core/Typography";
 import Hidden from "@material-ui/core/Hidden";
+import FloorElements from '../../components/atoms/FloorElements';
 import { makeStyles } from "@material-ui/core/styles";
 import { nanoid } from "nanoid";
 
@@ -37,7 +36,9 @@ name: name of the floor
 spaces: units with radiators not within units
 units
 
-The function renders as a horizontal flexbox, with the name of the floor, spaces, and units. 
+The function renders as a flexbox, with the name of the floor, spaces, and units. 
+The flexbox is vertical in mobile mode and horizontal in desktop mode.
+The actual arrangement of floor name, space, and unit is done by a helper component.
 It renders each independent space as a dummy unit with no name
 */
 
@@ -58,39 +59,14 @@ export default function Floor(props) {
     {/* mobile view */}
       <Hidden mdUp>
         <Box key={nanoid()} className={classes.floor} width="100%" flexDirection="column">
-          <Typography variant="h4" color="primary" p={3}>
-            {props.floor.name}
-          </Typography>
-          {props.floor.spaces.length > 0 && (
-            <Unit
-              key={nanoid()}
-              now={props.now}
-              unit={{ name: "", spaces: props.floor.spaces }}
-            />
-          )}
-          {props.floor.units.map((unit) => (
-            <Unit key={nanoid()} now={props.now} unit={unit} />
-          ))}
+          <FloorElements now={props.now} floor={props.floor} />
         </Box>
-
       </Hidden>
 
       {/* large view */}
       <Hidden smDown>
         <Box key={nanoid()} className={classes.floor} flexDirection="row">
-          <Typography variant="h4" color="primary" className={classes.floorName}>
-            {props.floor.name}
-          </Typography>
-          {props.floor.spaces.length > 0 && (
-            <Unit
-              key={nanoid()}
-              now={props.now}
-              unit={{ name: "", spaces: props.floor.spaces }}
-            />
-          )}
-          {props.floor.units.map((unit) => (
-            <Unit key={nanoid()} now={props.now} unit={unit} />
-          ))}
+          <FloorElements now={props.now} floor={props.floor} />
         </Box>
       </Hidden>
     </div>

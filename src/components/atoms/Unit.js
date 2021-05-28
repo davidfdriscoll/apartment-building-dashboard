@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
   },
   spaces: {
     display: "inline-flex",
+    [theme.breakpoints.down('md')]: {
+      flexGrow: 1,
+    },
     [theme.breakpoints.down('xs')]: {
       flexWrap: 'wrap',
     }
@@ -66,7 +69,7 @@ export default function Unit(props) {
       <Typography variant="h5" className={classes.unitName} p={1}>
         {props.unit.name}
       </Typography>
-      <Box key={nanoid()} flexDirection="row" className={classes.spaces}>
+      <Box key={nanoid()} flexDirection="row" justifyContent="center" className={classes.spaces}>
         {props.unit.spaces.map((space) => (
           <Space key={nanoid()} now={props.now} space={space} />
         ))}

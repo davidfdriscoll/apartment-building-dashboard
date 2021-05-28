@@ -1,5 +1,6 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
+import Divider from '@material-ui/core/Divider';
 import Floor from '../../components/molecules/Floor';
 import { nanoid } from "nanoid";
 
@@ -25,7 +26,7 @@ export default function Building(props) {
   return (
     <Box key={nanoid()} display="flex" flexDirection="column" p={1}>
       {props.building.floors.slice(0).reverse().map(
-        (floor) => <Floor key={nanoid()} now={props.now} floor={floor} />
+        (floor) => <><Floor key={nanoid()} now={props.now} floor={floor} /><Divider key={nanoid()} /></>        
       )}
     </Box>
   );

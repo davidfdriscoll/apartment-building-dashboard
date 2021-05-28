@@ -1,9 +1,9 @@
-import React from 'react';
-import Box from '@material-ui/core/Box';
-import Unit from '../../components/atoms/Unit';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import { makeStyles } from '@material-ui/core/styles';
+import React from "react";
+import Box from "@material-ui/core/Box";
+import Unit from "../../components/atoms/Unit";
+import Typography from "@material-ui/core/Typography";
+import Hidden from "@material-ui/core/Hidden";
+import { makeStyles } from "@material-ui/core/styles";
 import { nanoid } from "nanoid";
 
 /*
@@ -39,36 +39,60 @@ units
 
 The function renders as a horizontal flexbox, with the name of the floor, spaces, and units. 
 It renders each independent space as a dummy unit with no name
-*/ 
+*/
 
 const useStyles = makeStyles((theme) => ({
   floor: {
-    display: 'inline-flex',
+    display: "inline-flex",
   },
   floorName: {
-    alignSelf: 'center',
-  }
+    padding: theme.spacing(2),
+  },
 }));
 
 export default function Floor(props) {
   const classes = useStyles();
 
   return (
-    <Box key={nanoid()} flexDirection="column">
-      <Divider />
-      <Box 
-        key={nanoid()} 
-        className={classes.floor} 
-        flexDirection="row" 
-        flexWrap="wrap" 
-        justifyContent="space-between"
-      >
-        <Typography variant="h4" p={3}>{props.floor.name}</Typography>
-        {props.floor.spaces.length > 0 && 
-          <Unit key={nanoid()} now={props.now} unit={{"name": "", "spaces": props.floor.spaces}} />
-        }
-        {props.floor.units.map((unit) => <Unit key={nanoid()} now={props.now} unit={unit} />)}
-      </Box>
-    </Box>
+    <div>
+    {/* mobile view */}
+      <Hidden mdUp>
+        <Box key={nanoid()} className={classes.floor} width="100%" flexDirection="column">
+          <Typography variant="h4" color="primary" p={3}>
+            {props.floor.name}
+          </Typography>
+          {props.floor.spaces.length > 0 && (
+            <Unit
+              key={nanoid()}
+              now={props.now}
+              unit={{ name: "", spaces: props.floor.spaces }}
+            />
+          )}
+          {props.floor.units.map((unit) => (
+            <Unit key={nanoid()} now={props.now} unit={unit} />
+          ))}
+        </Box>
+
+      </Hidden>
+
+      {/* large view */}
+      <Hidden smDown>
+        <Box key={nanoid()} className={classes.floor} flexDirection="row">
+          <Typography variant="h4" color="primary" className={classes.floorName}>
+            {props.floor.name}
+          </Typography>
+          {props.floor.spaces.length > 0 && (
+            <Unit
+              key={nanoid()}
+              now={props.now}
+              unit={{ name: "", spaces: props.floor.spaces }}
+            />
+          )}
+          {props.floor.units.map((unit) => (
+            <Unit key={nanoid()} now={props.now} unit={unit} />
+          ))}
+        </Box>
+      </Hidden>
+    </div>
   );
 }

@@ -10,6 +10,26 @@ const useStyles = makeStyles((theme) => ({
   goodRadiatorNode: {
     color: '#88B447',
   },
+  coldRadiatorNode: {
+    borderRadius: '50%',
+    boxShadow: '0 0 0 0 rgba(0, 0, 0, 1)',
+    transform: 'scale(1)',
+    animation: '$pulse 2s infinite',  
+  },
+  "@keyframes pulse": {
+    "0%": {
+      transform: 'scale(0.95)',
+      boxShadow: '0 0 0 0 rgba(0, 0, 0, 0.7)',
+    },  
+    "70%": {
+      transform: 'scale(1)',
+      boxShadow: '0 0 0 10px rgba(0, 0, 0, 0)',
+    },  
+    "100%": {
+      transform: 'scale(0.95)',
+      boxShadow: '0 0 0 0 rgba(0, 0, 0, 0)',
+    },
+  },
 }));
 
 export default function StyledRadiatorNodeIcon(props) {
@@ -40,6 +60,7 @@ export default function StyledRadiatorNodeIcon(props) {
           aria-label='Radiator Node'
           fontSize = 'large'
           color = 'error'
+          className = {classes.coldRadiatorNode}
         />         
       }
     </>

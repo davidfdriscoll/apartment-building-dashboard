@@ -2,7 +2,7 @@ import React from 'react';
 import { unstable_createMuiStrictModeTheme as createMuiTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
-import ToolBar from '@material-ui/core/ToolBar';
+import Toolbar from '@material-ui/core/ToolBar';
 import Typography from '@material-ui/core/Typography';
 
 import Building from './components/pages/Building';
@@ -36,14 +36,14 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppBar position="static">
-         <ToolBar>
+         <Toolbar>
             <Typography variant="h6" className={classes.buildingName}>
                {sampleBuilding.name}
             </Typography>
             <Typography variant="h6">
                {humanReadableNow}
             </Typography>
-         </ToolBar>
+         </Toolbar>
       </AppBar>
       <Building
         now={sampleBuilding.retrieved_at} 

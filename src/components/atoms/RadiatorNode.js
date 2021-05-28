@@ -54,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
   typography: {
     padding: theme.spacing(1),
   },
+  button: {
+    padding: 0,
+  }
 }));
 
 export default function RadiatorNode(props) {
@@ -82,7 +85,7 @@ export default function RadiatorNode(props) {
     <PopupState variant="popper" popupId={nanoid()}>
       {(popupState) => (
         <div>
-          <IconButton {...bindToggle(popupState)}>
+          <IconButton className={classes.button} {...bindToggle(popupState)}>
             <SvgIcon 
               aria-label='Radiator Node'
               component={RadiatorNodeIcon} 

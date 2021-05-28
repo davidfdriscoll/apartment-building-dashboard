@@ -2,7 +2,7 @@ import React from 'react';
 import { unstable_createMuiStrictModeTheme as createMuiTheme, ThemeProvider, makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/ToolBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
 import Building from './components/pages/Building';

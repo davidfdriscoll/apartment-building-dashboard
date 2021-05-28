@@ -1,6 +1,5 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import Space from '../../components/atoms/Space';
 import Unit from '../../components/atoms/Unit';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -38,6 +37,7 @@ spaces: units with radiators not within units
 units
 
 The function renders as a horizontal flexbox, with the name of the floor, spaces, and units. 
+It renders each independent space as a dummy unit with no name
 */ 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,7 +56,9 @@ export default function Floor(props) {
   return (
     <Box key={nanoid()} className={classes.floor} flexDirection="row" p={1} m={1}>
       <Typography variant="h1" className={classes.floorName} p={1}>{props.floor.name}</Typography>
-      {props.floor.spaces.map((space) => <Space key={nanoid()} now={props.now} space={space} />)}
+      {props.floor.spaces.length > 0 && 
+        <Unit key={nanoid()} now={props.now} unit={{"name": "", "spaces": props.floor.spaces}} />
+      }
       {props.floor.units.map((unit) => <Unit key={nanoid()} now={props.now} unit={unit} />)}
     </Box>
   );

@@ -7,7 +7,7 @@ Example:
 formatDateAndTime(1617840940000)
 Apr 7, 2021, 8:15:40 PM
 
-The function provides consistency across the dashboard and handles some lack of support
+The function provides consistency across the dashboard and handles lack of support
 for timeStyle and dateStyle in Safari and Firefox.
 
 */

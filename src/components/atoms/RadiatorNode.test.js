@@ -38,7 +38,7 @@ describe("RadiatorNode component", () => {
 
   it("exists on basic render as an svg icon with success rendering", () => {
     act(() => {
-      const { nodeAsFragment } = render(<RadiatorNode now={now} node={goodRadiatorNode} number={goodRadiatorNumber} />);
+      render(<RadiatorNode now={now} node={goodRadiatorNode} number={goodRadiatorNumber} />);
     });
 
     const node = screen.getByLabelText('Radiator Node');
@@ -51,7 +51,7 @@ describe("RadiatorNode component", () => {
 
   it("renders an offline node (with an old last message) with grey disabled styling", () => {
     act(() => {    
-      const { nodeAsFragment } = render(<RadiatorNode now={now} node={offlineRadiatorNode} number={offlineRadiatorNumber} />);
+      render(<RadiatorNode now={now} node={offlineRadiatorNode} number={offlineRadiatorNumber} />);
     });
 
     const node = screen.getByLabelText('Radiator Node');
@@ -60,7 +60,7 @@ describe("RadiatorNode component", () => {
 
   it("renders a cold node (with unusual temperatures) with red error styling", () => {
     act(() => {    
-      const { nodeAsFragment } = render(<RadiatorNode now={now} node={coldRadiatorNode} number={coldRadiatorNumber} />);
+      render(<RadiatorNode now={now} node={coldRadiatorNode} number={coldRadiatorNumber} />);
     });
 
     const node = screen.getByLabelText('Radiator Node');
@@ -69,7 +69,7 @@ describe("RadiatorNode component", () => {
 
   test('clicking on good node creates popover with appropriate text', () => {
     act(() => {
-      const { nodeAsFragment } = render(<RadiatorNode now={now} node={goodRadiatorNode} number={goodRadiatorNumber} />);
+      render(<RadiatorNode now={now} node={goodRadiatorNode} number={goodRadiatorNumber} />);
     });
 
     const node = screen.getByRole('button'); 
@@ -80,9 +80,9 @@ describe("RadiatorNode component", () => {
     expect(screen.getByText(/radiator temperature/i)).toBeInTheDocument();    
   });
 
-  test('clicking on good node creates popover with appropriate radiator temperature', () => {
+  test('clicking on good node creates popover with good temperature and times', () => {
     act(() => {
-      const { nodeAsFragment } = render(<RadiatorNode now={now} node={goodRadiatorNode} number={goodRadiatorNumber} />);
+      render(<RadiatorNode now={now} node={goodRadiatorNode} number={goodRadiatorNumber} />);
     });
 
     const node = screen.getByRole('button'); 
@@ -91,27 +91,21 @@ describe("RadiatorNode component", () => {
       jest.runAllTimers();
     });
     expect(screen.getByText(/218/i)).toBeInTheDocument();    
-  });
-
-  test('clicking on good node creates popover with accurate time of last message', () => {
-    const { nodeAsFragment } = render(<RadiatorNode now={now} node={goodRadiatorNode} number={goodRadiatorNumber} />);
-    const node = screen.getByRole('button'); 
-    act(() => {
-      userEvent.click(node);
-      jest.runAllTimers();
-    });
     // 1617840786000 (time of last message) = Apr 7, 2021, 8:13:06 PM (in America/New_York time)
     expect(screen.getByText(/Apr 7, 2021, 8:13:06 PM/i)).toBeInTheDocument();    
+    // 1617840940000 (now time) - 1617840786000 (then time) = 154000 milliseconds = 154 seconds = '3 minutes ago'
+    // discarding the smaller seconds count
+    expect(screen.getByText(/3 minutes ago/i)).toBeInTheDocument();    
   });
 
-  test('clicking on good node creates popover with accurate time since last message', () => {
-    const { nodeAsFragment } = render(<RadiatorNode now={now} node={goodRadiatorNode} number={goodRadiatorNumber} />);
+  test('clicking on cold node creates popover with bad temperature and styled text', () => {
+    render(<RadiatorNode now={now} node={coldRadiatorNode} number={coldRadiatorNumber} />);
     const node = screen.getByRole('button'); 
     act(() => {
       userEvent.click(node);
       jest.runAllTimers();
     });
-    // 1617840940000 (now time) - 1617840786000 (then time) = 154000 milliseconds = 154 seconds = something like '2 minutes ago'
-    expect(screen.getByText(/2 minutes/i)).toBeInTheDocument();    
+    expect(screen.getByText(/70/i)).toBeInTheDocument();    // cold temperature
+    expect(screen.getByText(/70/i)).toHaveClass('MuiTypography-colorError');
   });
 });

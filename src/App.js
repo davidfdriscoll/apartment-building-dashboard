@@ -8,6 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import Building from './components/pages/Building';
 import sampleBuilding from './1234_Test_Street.json';
 
+import formatDateAndTime from './components/atoms/formatDateAndTime';
+
 const theme = createMuiTheme({
 
 });
@@ -23,14 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
    const classes = useStyles();
-
-   const nowTime = new Date(sampleBuilding.retrieved_at);
-   const timeFormatter = new Intl.DateTimeFormat("en-US", {
-      timeZone: "America/New_York",
-      timeStyle: "medium",
-      dateStyle: "medium"
-    });
-    const humanReadableNow = timeFormatter.format(nowTime);
+   const humanReadableNow = formatDateAndTime(new Date(sampleBuilding.retrieved_at));
 
   return (
     <ThemeProvider theme={theme}>

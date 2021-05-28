@@ -12,7 +12,8 @@ import { ReactComponent as RadiatorNodeIcon } from '../../icons/radiator.svg';
 
 import { nanoid } from "nanoid";
 
-import { intervalToDuration, formatDuration } from 'date-fns';
+import { formatDistance } from 'date-fns';
+import formatDateAndTime from '../../components/atoms/formatDateAndTime';
 
 
 // This component renders a single radiator node. It takes three props: 
@@ -71,18 +72,11 @@ export default function RadiatorNode(props) {
 
   const nowTime = new Date(props.now);
   const lastMessageTime = new Date(props.node.last_message);
-  const timeFormatter = new Intl.DateTimeFormat("en-US", {
-    timeZone: "America/New_York",
-    timeStyle: "medium",
-    dateStyle: "medium"
-  });
-  const humanReadableTime = timeFormatter.format(lastMessageTime);
-
-  const durationSinceLastMessage = intervalToDuration({
-    start: lastMessageTime,
-    end: nowTime
-  });
-  const formattedDuration = formatDuration(durationSinceLastMessage);
+  const humanReadableTime = formatDateAndTime(lastMessageTime);
+  const distanceSinceLastMessage = formatDistance(
+    lastMessageTime,
+    nowTime
+  );
 
   return (
     <PopupState variant="popper" popupId={nanoid()}>
@@ -102,10 +96,28 @@ export default function RadiatorNode(props) {
             {({ TransitionProps }) => (
               <Fade {...TransitionProps} timeout={350}>
                 <Paper>
-                  <Typography className={classes.typography}>Radiator Number: {props.radiatorNumber}</Typography>
-                  <Typography className={classes.typography}>Last Message: {humanReadableTime} ({formattedDuration} ago)</Typography>
-                  <Typography className={classes.typography}>Radiator Temperature: {props.node.radiator_temperature}°F</Typography>
-                  <Typography className={classes.typography}>Room Temperature: {props.node.room_temperature}°F</Typography>
+                  <Typography 
+                    className={classes.typography}
+                  >
+                    Radiator Number: {props.radiatorNumber}
+                  </Typography>
+                  <Typography 
+                    className={classes.typography}
+                    color={ offlineNode ? 'error' : 'inherit'}
+                  >
+                    Last Message: {humanReadableTime} ({distanceSinceLastMessage} ago)
+                  </Typography>
+                  <Typography 
+                    className={classes.typography}
+                    color={ coldNode ? 'error' : 'inherit' }
+                  >
+                    Radiator Temperature: {props.node.radiator_temperature}°F
+                  </Typography>
+                  <Typography 
+                    className={classes.typography}
+                  >
+                    Room Temperature: {props.node.room_temperature}°F
+                  </Typography>
                 </Paper>
               </Fade>
             )}

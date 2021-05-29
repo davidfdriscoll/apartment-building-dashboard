@@ -24,9 +24,9 @@ The function renders as a vertical flexbox of floors.
 
 export default function Building(props) {
   return (
-    <Box key={nanoid()} display="flex" flexDirection="column" p={1}>
+    <Box display="flex" flexDirection="column" p={1}>
       {props.building.floors.slice(0).reverse().map(
-        (floor) => <><Floor key={nanoid()} now={props.now} floor={floor} /><Divider key={nanoid()} /></>        
+        (floor) => <React.Fragment key={nanoid()}><Floor key={nanoid()} now={props.now} floor={floor} /><Divider key={nanoid()} /></React.Fragment>        
       )}
     </Box>
   );

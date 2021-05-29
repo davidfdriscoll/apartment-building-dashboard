@@ -5,18 +5,15 @@ import {
   makeStyles,
 } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
+
 import Container from '@material-ui/core/Container';
 import Paper from '@material-ui/core/Paper';
 
 import Building from "./components/pages/Building";
+import ApartmentAppBar from "./components/molecules/ApartmentAppBar";
 import sampleBuilding from "./1234_Test_Street.json";
 
-import clsx from 'clsx';
 
-import formatDateAndTime from "./components/atoms/formatDateAndTime";
 
 const theme = createMuiTheme({
   typography: {
@@ -49,19 +46,6 @@ const theme = createMuiTheme({
 });
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  appBarFont: {
-    color: theme.palette.common.white,
-    textTransform: 'uppercase',
-    letterSpacing: '1',
-    fontSize: "16px",
-    fontWeight: '600',
-  },
-  buildingName: {
-    flexGrow: 1,
-  },
   paper: {
     marginTop: theme.spacing(1),
     paddingTop: theme.spacing(0),
@@ -74,24 +58,68 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
-  const humanReadableNow = formatDateAndTime(
-    new Date(sampleBuilding.retrieved_at)
-  );
+  const [showEmptySpaces, setShowEmptySpaces] = React.useState(false);
+  const [showEmptyUnits, setShowEmptyUnits] = React.useState(false);
+  const [currentBuilding, setCurrentBuilding] = React.useState(sampleBuilding);
+
+  React.useEffect(() => {
+    // Some data cleaning here performed on the front end
+    // Normally this would be done elsewhere in the creation of the JSON
+
+    let tempBuilding = JSON.parse(JSON.stringify(sampleBuilding));
+
+    // Remove empty units
+    if(!showEmptyUnits)
+      // for each floor
+      for(let i = tempBuilding.floors.length - 1; i >= 0; i--)
+        // for each unit
+        for(let j = tempBuilding.floors[i].units.length - 1; j >= 0; j--) {
+          const unit = tempBuilding.floors[i].units[j];
+          // if all spaces in that unit
+          if(unit.spaces.length === unit.spaces.filter((space) => {
+            // have no radiators at all
+            if(space.radiators.length === 0) return true;
+            // or have no nodes attached to their radiators
+            if(space.radiators.length === space.radiators.filter((radiator) => radiator.nodes.length === 0).length) return true;
+            return false;
+          }).length)
+            // remove that unit
+            tempBuilding.floors[i].units.splice(j, 1);
+        }
+
+    // Remove empty spaces
+    if(!showEmptySpaces)
+      // for each floor
+      for(let i = tempBuilding.floors.length - 1; i >= 0; i--)
+        // for each unit
+        for(let j = tempBuilding.floors[i].units.length - 1; j >= 0; j--) {
+          // for each space
+          for(let k = tempBuilding.floors[i].units[j].spaces.length - 1; k >= 0; k--) {
+            const space = tempBuilding.floors[i].units[j].spaces[k];
+            // if that space has no radiators or has no nodes attached to its radiators
+            if(space.radiators.length === 0 ||
+               space.radiators.length === space.radiators.filter((radiator) => radiator.nodes.length === 0).length) {
+                tempBuilding.floors[i].units[j].spaces.splice(k, 1);
+            }          
+          } 
+        } 
+
+    setCurrentBuilding(tempBuilding);
+  }, [showEmptySpaces, showEmptyUnits]);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" className={clsx(classes.buildingName, classes.appBarFont)}>
-            {sampleBuilding.name}
-          </Typography>
-          <Typography variant="h6" className={classes.appBarFont}>{humanReadableNow}</Typography>
-        </Toolbar>
-      </AppBar>
+      <ApartmentAppBar 
+        building={currentBuilding} 
+        showEmptyUnits={showEmptyUnits}
+        setShowEmptyUnits={setShowEmptyUnits}
+        showEmptySpaces={showEmptySpaces}
+        setShowEmptySpaces={setShowEmptySpaces}
+      />
       <Container disableGutters maxWidth="lg">
         <Paper className={classes.paper}>
-          <Building now={sampleBuilding.retrieved_at} building={sampleBuilding} />
+          <Building now={currentBuilding.retrieved_at} building={currentBuilding} />
         </Paper>
       </Container>
     </ThemeProvider>

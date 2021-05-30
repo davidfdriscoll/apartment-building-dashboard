@@ -66,7 +66,7 @@ export default function Space(props) {
     <Box key={nanoid()} className={classes.space} flexDirection="column" p={1}>
       <Typography variant="caption" align="center">{props.space?.name}</Typography>
       <Box key={nanoid()} className={classes.inlineFlex}>
-        {props.space.radiators?.map((radiator) => 
+        {props.space.radiators.map((radiator) => 
           <Radiator 
             key={nanoid()}
             now={props.now} 

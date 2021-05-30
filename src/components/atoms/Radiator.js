@@ -68,6 +68,8 @@ export default function Radiator(props) {
   const coldRadiator = props.radiator.nodes.filter((node) => isColdNode(node)).length > 0;
   const offlineRadiator = props.radiator.nodes.filter((node) => isOfflineNode(props.now, node)).length > 0;
 
+  if(props.radiator.nodes.length === 0) return (<div></div>);
+
   return (
     <PopupState variant="popper" popupId={nanoid()}>
       {(popupState) => (

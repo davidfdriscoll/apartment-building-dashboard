@@ -37,6 +37,5 @@ export default function countRadiators(building) {
       }
     }
   }
-  console.log(radiatorCount);
   return radiatorCount;
 }

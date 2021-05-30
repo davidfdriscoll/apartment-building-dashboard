@@ -68,7 +68,7 @@ function App() {
     // Show spaces with radiators but without installed devices
     showDevicelessRadiators: false,
     showLongRadiators: true,
-    // Show units without any devices (i.e. 2D)
+    // Show units without any devices (e.g. 2D)
     showEmptyUnits: false,
     // Show spaces without radiators altogether
     showEmptySpaces: false,

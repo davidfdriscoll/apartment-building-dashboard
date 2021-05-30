@@ -26,7 +26,7 @@ export default function Building(props) {
   return (
     <Box display="flex" flexDirection="column" p={1}>
       {props.building.floors.slice(0).reverse().map(
-        (floor) => <React.Fragment key={nanoid()}><Floor key={nanoid()} now={props.now} floor={floor} /><Divider key={nanoid()} /></React.Fragment>        
+        (floor) => <React.Fragment key={nanoid()}><Floor key={nanoid()} now={props.building.retrieved_at} floor={floor} /><Divider key={nanoid()} /></React.Fragment>        
       )}
     </Box>
   );

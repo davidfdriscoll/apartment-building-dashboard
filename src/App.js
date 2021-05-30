@@ -74,26 +74,31 @@ function App() {
     showEmptySpaces: false,
   });
 
-  const[radiatorCount, setRadiatorCount] = React.useState();
+  const[radiatorCount, setRadiatorCount] = React.useState({
+    goodRadiator: 0,
+    offlineRadiator: 0,
+    coldRadiator: 0,
+    devicelessRadiator: 0,
+    longRadiator: 0,
+  });
 
-  const [currentBuilding, setCurrentBuilding] = React.useState(sampleBuilding);
-  const [currentBuildingViz, setCurrentBuildingViz] = React.useState(currentBuilding);
+  const [currentBuildingViz, setCurrentBuildingViz] = React.useState(sampleBuilding);
 
   React.useEffect(() => {
-    setRadiatorCount(countRadiators(currentBuilding));
-  }, [currentBuilding]);
+    setRadiatorCount(countRadiators(sampleBuilding));
+  }, []);
 
   React.useEffect(() => {
-    let tempBuilding = JSON.parse(JSON.stringify(currentBuilding));
+    let tempBuilding = JSON.parse(JSON.stringify(sampleBuilding));
     tempBuilding = mockApi(tempBuilding, vizOptions);
     setCurrentBuildingViz(tempBuilding);
-  }, [vizOptions, currentBuilding]);
+  }, [vizOptions]);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <ApartmentAppBar 
-        building={currentBuilding} 
+        building={currentBuildingViz} 
       />
       <Container disableGutters maxWidth="lg">
         <Paper className={classes.paper}>
@@ -104,7 +109,7 @@ function App() {
           />
         </Paper>
         <Paper className={classes.paper}>
-          <Building now={currentBuilding.retrieved_at} building={currentBuildingViz} />
+          <Building building={currentBuildingViz} />
         </Paper>
       </Container>
     </ThemeProvider>

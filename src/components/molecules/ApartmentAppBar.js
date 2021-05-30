@@ -73,6 +73,8 @@ export default function ApartmentAppBar(props) {
         setShowEmptyUnits={props.setShowEmptyUnits} 
         showEmptySpaces={props.showEmptySpaces} 
         setShowEmptySpaces={props.setShowEmptySpaces} 
+        showDevicelessRadiators={props.showDevicelessRadiators}
+        setShowDevicelessRadiators={props.setShowDevicelessRadiators}
       />
     </AppBar>
   );

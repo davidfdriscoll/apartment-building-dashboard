@@ -5,7 +5,7 @@ import ReportRoundedIcon from '@material-ui/icons/ReportRounded';
 import { ReactComponent as RadiatorNodeIcon } from '../../icons/radiator.svg';
 import clsx from 'clsx';
 
-/* Given two props of coldRadiator and offlineRadiator, return the appropriate icon with styling */
+/* Given props of coldRadiator, offlineRadiator, coldRadiatorDemo, and devicelessRadiator, return the appropriate icon with styling */
 
 const useStyles = makeStyles((theme) => ({
   stretchRadiator: props => ({
@@ -66,6 +66,16 @@ export default function StyledRadiatorIcon(props) {
       preserveAspectRatio='none'
       color = 'error'
     />   
+  );
+  if(props.devicelessRadiator) return (
+    <SvgIcon 
+      aria-label='Radiator'
+      component={RadiatorNodeIcon} 
+      viewBox="0 0 600 600" 
+      preserveAspectRatio='none'
+      fontSize = 'large'
+      className={clsx(classes.stretchRadiator)} 
+    />
   );
   if(!props.coldRadiator && !props.offlineRadiator) return (
     <SvgIcon 

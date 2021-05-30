@@ -17,7 +17,7 @@ export default function Legend(props) {
     <Box display="flex" flexDirection="column">
       <Box p={1} display="flex" alignItems="center">
         <StyledRadiatorIcon coldRadiator={false} offlineRadiator={false} width={1} /> 
-        <Typography className={classes.typography}>Device without issues</Typography>
+        <Typography className={classes.typography}>Device and Radiator without issues</Typography>
       </Box>
       <Box p={1} display="flex" alignItems="center">
         <StyledRadiatorIcon coldRadiatorDemo={true} width={1} /> 
@@ -27,6 +27,10 @@ export default function Legend(props) {
         <StyledRadiatorIcon offlineRadiator={true} width={1} />
         <Typography className={classes.typography}>Device that is offline</Typography>
       </Box>      
+      <Box p={1} display="flex" alignItems="center">
+        <StyledRadiatorIcon devicelessRadiator={true} width={1} />
+        <Typography className={classes.typography}>Radiator without any devices</Typography>
+      </Box> 
     </Box>
   );
 }

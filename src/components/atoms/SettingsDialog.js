@@ -21,7 +21,12 @@ export default function SettingsDialog(props) {
         <SettingsSwitch
           toggle={props.showEmptySpaces}
           setToggle={props.setShowEmptySpaces} 
-          name="Show Spaces without Devices"
+          name="Show Spaces without Radiators"
+        />
+        <SettingsSwitch
+          toggle={props.showDevicelessRadiators}
+          setToggle={props.setShowDevicelessRadiators} 
+          name="Show Radiators without Installed Devices"
         />
       </DialogContent>
     </Dialog>

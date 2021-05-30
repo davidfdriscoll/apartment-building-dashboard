@@ -58,8 +58,14 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
-  const [showEmptySpaces, setShowEmptySpaces] = React.useState(false);
+
+  // Three choices for display
+  // Show units without any devices (i.e. 2D)
   const [showEmptyUnits, setShowEmptyUnits] = React.useState(false);
+  // Show spaces without radiators altogether
+  const [showEmptySpaces, setShowEmptySpaces] = React.useState(false);
+  // Show spaces with radiators but without installed devices
+  const [showDevicelessRadiators, setShowDevicelessRadiators] = React.useState(false);
   const [currentBuilding, setCurrentBuilding] = React.useState(sampleBuilding);
 
   React.useEffect(() => {
@@ -68,7 +74,7 @@ function App() {
 
     let tempBuilding = JSON.parse(JSON.stringify(sampleBuilding));
 
-    // Remove empty units
+    // Remove units without any devices
     if(!showEmptyUnits)
       // for each floor
       for(let i = tempBuilding.floors.length - 1; i >= 0; i--)
@@ -79,7 +85,7 @@ function App() {
           if(unit.spaces.length === unit.spaces.filter((space) => {
             // have no radiators at all
             if(space.radiators.length === 0) return true;
-            // or have no nodes attached to their radiators
+            // or have no nodes (devices) attached to their radiators
             if(space.radiators.length === space.radiators.filter((radiator) => radiator.nodes.length === 0).length) return true;
             return false;
           }).length)
@@ -87,8 +93,9 @@ function App() {
             tempBuilding.floors[i].units.splice(j, 1);
         }
 
-    // Remove empty spaces
-    if(!showEmptySpaces)
+    // Remove spaces without radiators and/or without devices
+    // only skip this loop if we are showing all devices
+ //   if(!(showEmptySpaces && showDevicelessRadiators))
       // for each floor
       for(let i = tempBuilding.floors.length - 1; i >= 0; i--)
         // for each unit
@@ -96,16 +103,21 @@ function App() {
           // for each space
           for(let k = tempBuilding.floors[i].units[j].spaces.length - 1; k >= 0; k--) {
             const space = tempBuilding.floors[i].units[j].spaces[k];
-            // if that space has no radiators or has no nodes attached to its radiators
-            if(space.radiators.length === 0 ||
-               space.radiators.length === space.radiators.filter((radiator) => radiator.nodes.length === 0).length) {
-                tempBuilding.floors[i].units[j].spaces.splice(k, 1);
+            if(
+              // if that space has no radiators and we are not showing such spaces
+              (space.radiators.length === 0 && !showEmptySpaces) ||
+              // or if that space has radiators but no devices and we are not showing such spaces
+              (space.radiators.length >= 1 && 
+               space.radiators.length === space.radiators.filter((radiator) => radiator.nodes.length === 0).length && 
+               !showDevicelessRadiators)
+            ) {
+              tempBuilding.floors[i].units[j].spaces.splice(k, 1);
             }          
           } 
         } 
 
     setCurrentBuilding(tempBuilding);
-  }, [showEmptySpaces, showEmptyUnits]);
+  }, [showEmptySpaces, showEmptyUnits, showDevicelessRadiators]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -116,6 +128,8 @@ function App() {
         setShowEmptyUnits={setShowEmptyUnits}
         showEmptySpaces={showEmptySpaces}
         setShowEmptySpaces={setShowEmptySpaces}
+        showDevicelessRadiators={showDevicelessRadiators}
+        setShowDevicelessRadiators={setShowDevicelessRadiators}
       />
       <Container disableGutters maxWidth="lg">
         <Paper className={classes.paper}>

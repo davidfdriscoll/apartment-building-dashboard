@@ -1,7 +1,6 @@
 /* This component renders an appbar for the dashboard.
-The appbar has three main components:
+The appbar has two main components:
 
-An icon triggering a settings dialog to control the visualization
 The name of the building
 The last recorded time in human readable format
 

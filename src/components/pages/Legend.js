@@ -31,6 +31,10 @@ export default function Legend(props) {
         <StyledRadiatorIcon devicelessRadiator={true} width={1} />
         <Typography className={classes.typography}>Radiator without any devices</Typography>
       </Box> 
+      <Box p={1} display="flex" alignItems="center">
+        <StyledRadiatorIcon coldRadiator={false} offlineRadiator={false} width={2} /> 
+        <Typography className={classes.typography}>Long radiator with multiple devices</Typography>
+      </Box>
     </Box>
   );
 }

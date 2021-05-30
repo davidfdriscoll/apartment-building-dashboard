@@ -16,12 +16,12 @@ export default function SettingsDialog(props) {
         <SettingsSwitch 
           toggle={props.showEmptyUnits} 
           setToggle={props.setShowEmptyUnits} 
-          name="Show Units without Radiators"
+          name="Show Units without Devices"
         />
         <SettingsSwitch
           toggle={props.showEmptySpaces}
           setToggle={props.setShowEmptySpaces} 
-          name="Show Spaces without Radiators"
+          name="Show Spaces without Devices"
         />
       </DialogContent>
     </Dialog>

@@ -14,7 +14,9 @@ export default function FloorElements(props) {
   return (
     <>
       <Typography variant="h4" color="primary" p={3}>
-        {props.floor.name}
+        {Number.isInteger(Number(props.floor.name))
+          ? `Floor ${props.floor.name}`
+          : props.floor.name}
       </Typography>
       {props.floor.spaces.length > 0 && (
         <Unit

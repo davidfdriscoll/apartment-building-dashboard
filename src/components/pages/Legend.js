@@ -1,40 +1,51 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
 import StyledRadiatorIcon from '../../components/atoms/StyledRadiatorIcon';
-
-const useStyles = makeStyles((theme) => ({
-  typography: {
-    paddingLeft: theme.spacing(1),
-  },
-}));
+import SettingsSwitch from '../../components/atoms/SettingsSwitch';
 
 export default function Legend(props) {
-  const classes = useStyles(props);
-
   return (
     <Box display="flex" flexDirection="column">
-      <Box p={1} display="flex" alignItems="center">
-        <StyledRadiatorIcon coldRadiator={false} offlineRadiator={false} width={1} /> 
-        <Typography className={classes.typography}>Device and Radiator without issues</Typography>
-      </Box>
-      <Box p={1} display="flex" alignItems="center">
-        <StyledRadiatorIcon coldRadiatorDemo={true} width={1} /> 
-        <Typography className={classes.typography}>Radiator with an unusual temperature</Typography>
-      </Box>
-      <Box p={1} display="flex" alignItems="center">
-        <StyledRadiatorIcon offlineRadiator={true} width={1} />
-        <Typography className={classes.typography}>Device that is offline</Typography>
-      </Box>      
-      <Box p={1} display="flex" alignItems="center">
-        <StyledRadiatorIcon devicelessRadiator={true} width={1} />
-        <Typography className={classes.typography}>Radiator without any devices</Typography>
-      </Box> 
-      <Box p={1} display="flex" alignItems="center">
-        <StyledRadiatorIcon coldRadiator={false} offlineRadiator={false} width={2} /> 
-        <Typography className={classes.typography}>Long radiator with multiple devices</Typography>
-      </Box>
+      <SettingsSwitch
+        toggle={props.vizOptions.showGoodRadiators}
+        setToggle={(val) => props.setVizOptions({...props.vizOptions, showGoodRadiators: val})} 
+        name={`Devices and Radiators without issues (${props.radiatorCount.goodRadiator} in building)`}
+        icon={<StyledRadiatorIcon coldRadiator={false} offlineRadiator={false} width={1} />}
+      />
+      <SettingsSwitch
+        toggle={props.vizOptions.showColdRadiators}
+        setToggle={(val) => props.setVizOptions({...props.vizOptions, showColdRadiators: val})} 
+        name={`Radiators with an unusual temperature (${props.radiatorCount.coldRadiator} in building)`}
+        icon={<StyledRadiatorIcon coldRadiatorDemo={true} width={1} />}
+      />
+      <SettingsSwitch
+        toggle={props.vizOptions.showOfflineRadiators}
+        setToggle={(val) => props.setVizOptions({...props.vizOptions, showOfflineRadiators: val})} 
+        name={`Devices that are offline (${props.radiatorCount.offlineRadiator} in building)`}
+        icon={<StyledRadiatorIcon offlineRadiator={true} width={1} />}
+      />
+      <SettingsSwitch
+        toggle={props.vizOptions.showDevicelessRadiators}
+        setToggle={(val) => props.setVizOptions({...props.vizOptions, showDevicelessRadiators: val})} 
+        name={`Radiators without any devices (${props.radiatorCount.devicelessRadiator} in building)`}
+        icon={<StyledRadiatorIcon devicelessRadiator={true} width={1} />}
+      />
+      <SettingsSwitch
+        toggle={props.vizOptions.showLongRadiators}
+        setToggle={(val) => props.setVizOptions({...props.vizOptions, showLongRadiators: val})} 
+        name={`Long radiators with multiple devices (${props.radiatorCount.longRadiator} in building)`}
+        icon={<StyledRadiatorIcon coldRadiator={false} offlineRadiator={false} width={2} />}
+      />
+      <SettingsSwitch 
+        toggle={props.vizOptions.showEmptyUnits} 
+        setToggle={(val) => props.setVizOptions({...props.vizOptions, showEmptyUnits: val})} 
+        name="Show All Units"
+      />
+      <SettingsSwitch
+        toggle={props.vizOptions.showEmptySpaces}
+        setToggle={(val) => props.setVizOptions({...props.vizOptions, showEmptySpaces: val})} 
+        name="Show All Spaces"
+      />
     </Box>
   );
 }

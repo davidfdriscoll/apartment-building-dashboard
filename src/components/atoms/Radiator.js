@@ -13,8 +13,7 @@ import { nanoid } from "nanoid";
 import StyledRadiatorIcon from '../../components/atoms/StyledRadiatorIcon';
 import RadiatorPopperText from '../../components/atoms/RadiatorPopperText';
 
-import isColdNode from '../../components/atoms/isColdNode';
-import isOfflineNode from '../../components/atoms/isOfflineNode';
+import assessRadiator from '../../components/atoms/assessRadiator';
 
 
 // This component renders a single radiator. It takes two props: 
@@ -65,8 +64,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Radiator(props) {
   const classes = useStyles();
 
-  const coldRadiator = props.radiator.nodes.filter((node) => isColdNode(node)).length > 0;
-  const offlineRadiator = props.radiator.nodes.filter((node) => isOfflineNode(props.now, node)).length > 0;
+  const coldRadiator = assessRadiator(props.radiator, props.now) === 'coldRadiator'; 
+  const offlineRadiator = assessRadiator(props.radiator, props.now) === 'offlineRadiator'; 
 
   // If this radiator has no devices
   if(props.radiator.nodes.length === 0) return (<StyledRadiatorIcon devicelessRadiator={true} width={1} />);

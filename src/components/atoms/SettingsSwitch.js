@@ -4,10 +4,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
-  formcontrollabel: {
-    marginLeft: theme.spacing(1),
+  formGroup: {
+    alignItems: 'center',
+  },
+  formControlLabel: {
+    marginRight: 0,
+  },
+  typography: {
+    paddingLeft: theme.spacing(1),
   },
 }));
 
@@ -19,13 +26,15 @@ export default function SettingsSwitch(props) {
   };
 
   return (
-    <FormGroup row>
+    <FormGroup row className={classes.formGroup}>
       <FormControlLabel
         control={<Switch checked={props.toggle} onChange={handleChange} name={props.name} />}
-        label={props.name}
-        labelPlacement="start"
-        className={classes.formcontrollabel}
-      />
+        labelPlacement="end"
+        className={classes.formControlLabel}
+      >
+      </FormControlLabel>
+      {props.icon}
+      <Typography className={classes.typography}>{props.name}</Typography>
     </FormGroup>
   );
 }

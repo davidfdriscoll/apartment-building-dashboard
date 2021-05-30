@@ -13,13 +13,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import IconButton from '@material-ui/core/IconButton';
-import SettingsIcon from '@material-ui/icons/Settings';
 
 import clsx from 'clsx';
 
 import formatDateAndTime from "../../components/atoms/formatDateAndTime";
-import SettingsDialog from "../../components/atoms/SettingsDialog";
 
 const useStyles = makeStyles((theme) => ({
   iconButton: {
@@ -43,14 +40,6 @@ const useStyles = makeStyles((theme) => ({
 export default function ApartmentAppBar(props) {
   const classes = useStyles();
 
-  const [settingsDialogOpen, setSettingsDialogOpen] = React.useState(false);
-  function handleSettingsIconPress() {
-    setSettingsDialogOpen(true);
-  }
-  function handleSettingsDialogClose() {
-    setSettingsDialogOpen(false);
-  }
-
   const humanReadableNow = formatDateAndTime(
     new Date(props.building.retrieved_at)
   );
@@ -58,24 +47,11 @@ export default function ApartmentAppBar(props) {
   return (
     <AppBar position="static">
       <Toolbar>
-        <IconButton onClick={handleSettingsIconPress} edge="start" className={classes.iconButton} aria-label="settings">
-          <SettingsIcon />
-        </IconButton>
         <Typography variant="h6" className={clsx(classes.buildingName, classes.appBarFont)}>
           {props.building.name}
         </Typography>
         <Typography variant="h6" className={classes.appBarFont}>{humanReadableNow}</Typography>
       </Toolbar>
-      <SettingsDialog 
-        open={settingsDialogOpen} 
-        handleSettingsDialogClose={handleSettingsDialogClose}
-        showEmptyUnits={props.showEmptyUnits} 
-        setShowEmptyUnits={props.setShowEmptyUnits} 
-        showEmptySpaces={props.showEmptySpaces} 
-        setShowEmptySpaces={props.setShowEmptySpaces} 
-        showDevicelessRadiators={props.showDevicelessRadiators}
-        setShowDevicelessRadiators={props.setShowDevicelessRadiators}
-      />
     </AppBar>
   );
 }

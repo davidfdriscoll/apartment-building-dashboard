@@ -5,7 +5,7 @@ import ReportRoundedIcon from '@material-ui/icons/ReportRounded';
 import { ReactComponent as RadiatorNodeIcon } from '../../icons/radiator.svg';
 import clsx from 'clsx';
 
-/* Given props of coldRadiator, offlineRadiator, coldRadiatorDemo, and devicelessRadiator, return the appropriate icon with styling */
+/* Given props of coldRadiator, offlineRadiator, coldRadiatorDemo, and devicelessRadiator, and icon size 'small', return the appropriate icon with styling */
 
 const useStyles = makeStyles((theme) => ({
   stretchRadiator: props => ({
@@ -38,11 +38,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function StyledRadiatorIcon(props) {
   const classes = useStyles(props);
+  const size = props.small ? 'small' : 'large';
 
   if(props.coldRadiator) return (
     <ReportRoundedIcon
     aria-label='Radiator'
-    fontSize = 'large'
+    fontSize = {size}
     preserveAspectRatio='none'
     color = 'error'
     className = {clsx(classes.stretchRadiator, classes.coldRadiator)}
@@ -54,7 +55,7 @@ export default function StyledRadiatorIcon(props) {
       component={RadiatorNodeIcon} 
       viewBox="0 0 600 600" 
       preserveAspectRatio='none'
-      fontSize = 'large'
+      fontSize = {size}
       color = 'disabled'
       className={classes.stretchRadiator}
     />   
@@ -62,7 +63,7 @@ export default function StyledRadiatorIcon(props) {
   if(props.coldRadiatorDemo) return (
     <ReportRoundedIcon
       aria-label='Radiator'
-      fontSize = 'large'
+      fontSize = {size}
       preserveAspectRatio='none'
       color = 'error'
     />   
@@ -73,7 +74,7 @@ export default function StyledRadiatorIcon(props) {
       component={RadiatorNodeIcon} 
       viewBox="0 0 600 600" 
       preserveAspectRatio='none'
-      fontSize = 'large'
+      fontSize = {size}
       className={clsx(classes.stretchRadiator)} 
     />
   );
@@ -83,7 +84,7 @@ export default function StyledRadiatorIcon(props) {
       component={RadiatorNodeIcon} 
       viewBox="0 0 600 600" 
       preserveAspectRatio='none'
-      fontSize = 'large'
+      fontSize = {size}
       className={clsx(classes.stretchRadiator, classes.goodRadiator)} 
     />
   );

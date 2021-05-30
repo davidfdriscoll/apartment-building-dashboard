@@ -16,8 +16,6 @@ import isOfflineNode from '../../components/atoms/isOfflineNode';
 This components generates the text for the popper for each radiator. It takes as props:
 now
 radiator
-coldRadiator
-offlineRadiator
 */
 
 const useStyles = makeStyles((theme) => ({

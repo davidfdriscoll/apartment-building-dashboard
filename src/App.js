@@ -14,6 +14,8 @@ import ApartmentAppBar from "./components/molecules/ApartmentAppBar";
 import sampleBuilding from "./1234_Test_Street.json";
 import Legend from './components/pages/Legend';
 
+import mockApi from './components/molecules/mockApi';
+import countRadiators from './components/molecules/countRadiators';
 
 const theme = createMuiTheme({
   typography: {
@@ -59,84 +61,50 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
 
-  // Three choices for display
-  // Show units without any devices (i.e. 2D)
-  const [showEmptyUnits, setShowEmptyUnits] = React.useState(false);
-  // Show spaces without radiators altogether
-  const [showEmptySpaces, setShowEmptySpaces] = React.useState(false);
-  // Show spaces with radiators but without installed devices
-  const [showDevicelessRadiators, setShowDevicelessRadiators] = React.useState(false);
+  const [vizOptions, setVizOptions] = React.useState({
+    showGoodRadiators: true,
+    showColdRadiators: true,
+    showOfflineRadiators: true,
+    // Show spaces with radiators but without installed devices
+    showDevicelessRadiators: false,
+    showLongRadiators: true,
+    // Show units without any devices (i.e. 2D)
+    showEmptyUnits: false,
+    // Show spaces without radiators altogether
+    showEmptySpaces: false,
+  });
+
+  const[radiatorCount, setRadiatorCount] = React.useState();
+
   const [currentBuilding, setCurrentBuilding] = React.useState(sampleBuilding);
+  const [currentBuildingViz, setCurrentBuildingViz] = React.useState(currentBuilding);
 
   React.useEffect(() => {
-    // Some data cleaning here performed on the front end
-    // Normally this would be done elsewhere in the creation of the JSON
+    setRadiatorCount(countRadiators(currentBuilding));
+  }, [currentBuilding]);
 
-    let tempBuilding = JSON.parse(JSON.stringify(sampleBuilding));
-
-    // Remove units without any devices
-    if(!showEmptyUnits)
-      // for each floor
-      for(let i = tempBuilding.floors.length - 1; i >= 0; i--)
-        // for each unit
-        for(let j = tempBuilding.floors[i].units.length - 1; j >= 0; j--) {
-          const unit = tempBuilding.floors[i].units[j];
-          // if all spaces in that unit
-          if(unit.spaces.length === unit.spaces.filter((space) => {
-            // have no radiators at all
-            if(space.radiators.length === 0) return true;
-            // or have no nodes (devices) attached to their radiators
-            if(space.radiators.length === space.radiators.filter((radiator) => radiator.nodes.length === 0).length) return true;
-            return false;
-          }).length)
-            // remove that unit
-            tempBuilding.floors[i].units.splice(j, 1);
-        }
-
-    // Remove spaces without radiators and/or without devices
-    // only skip this loop if we are showing all devices
- //   if(!(showEmptySpaces && showDevicelessRadiators))
-      // for each floor
-      for(let i = tempBuilding.floors.length - 1; i >= 0; i--)
-        // for each unit
-        for(let j = tempBuilding.floors[i].units.length - 1; j >= 0; j--) {
-          // for each space
-          for(let k = tempBuilding.floors[i].units[j].spaces.length - 1; k >= 0; k--) {
-            const space = tempBuilding.floors[i].units[j].spaces[k];
-            if(
-              // if that space has no radiators and we are not showing such spaces
-              (space.radiators.length === 0 && !showEmptySpaces) ||
-              // or if that space has radiators but no devices and we are not showing such spaces
-              (space.radiators.length >= 1 && 
-               space.radiators.length === space.radiators.filter((radiator) => radiator.nodes.length === 0).length && 
-               !showDevicelessRadiators)
-            ) {
-              tempBuilding.floors[i].units[j].spaces.splice(k, 1);
-            }          
-          } 
-        } 
-
-    setCurrentBuilding(tempBuilding);
-  }, [showEmptySpaces, showEmptyUnits, showDevicelessRadiators]);
+  React.useEffect(() => {
+    let tempBuilding = JSON.parse(JSON.stringify(currentBuilding));
+    tempBuilding = mockApi(tempBuilding, vizOptions);
+    setCurrentBuildingViz(tempBuilding);
+  }, [vizOptions, currentBuilding]);
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <ApartmentAppBar 
         building={currentBuilding} 
-        showEmptyUnits={showEmptyUnits}
-        setShowEmptyUnits={setShowEmptyUnits}
-        showEmptySpaces={showEmptySpaces}
-        setShowEmptySpaces={setShowEmptySpaces}
-        showDevicelessRadiators={showDevicelessRadiators}
-        setShowDevicelessRadiators={setShowDevicelessRadiators}
       />
       <Container disableGutters maxWidth="lg">
         <Paper className={classes.paper}>
-          <Building now={currentBuilding.retrieved_at} building={currentBuilding} />
+          <Legend 
+            vizOptions={vizOptions}
+            setVizOptions={setVizOptions}
+            radiatorCount={radiatorCount}
+          />
         </Paper>
         <Paper className={classes.paper}>
-          <Legend />
+          <Building now={currentBuilding.retrieved_at} building={currentBuildingViz} />
         </Paper>
       </Container>
     </ThemeProvider>

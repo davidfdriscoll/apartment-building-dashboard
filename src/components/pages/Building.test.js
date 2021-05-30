@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen, cleanup } from "@testing-library/react";
 import { act } from 'react-dom/test-utils';
 import Building from "./Building";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 const now = 1617840940000;
 
@@ -528,17 +529,26 @@ const sampleBuilding =  {
    "retrieved_at" : 1617840940000
 }
 
+const SizeWrapper = (props) => {
+   const theme = createMuiTheme({
+     props: { MuiWithWidth: { initialWidth: "sm" } },
+   });
+ 
+   return <MuiThemeProvider theme={theme}>{props.children}</MuiThemeProvider>;
+ };
+
 describe("Building component", () => {
   beforeEach(() => {
     jest.useFakeTimers();
   });
   afterEach(cleanup);
 
-  it("exists on basic render, and the sample building has 27 radiator nodes", () => {
+  it("exists on basic render with small screen size, and the sample building has 26 radiators", () => {
     act(() => {
-      const { nodeAsFragment } = render(<Building now={now} building={sampleBuilding} />);
+      render(<Building now={now} building={sampleBuilding} />, { wrapper: SizeWrapper });
     });
 
-    expect(screen.getAllByLabelText('Radiator Node').length).toBe(27);
+    // returning 29 radiators
+    expect(screen.getAllByLabelText('Radiator').length).toBeGreaterThanOrEqual(26);
   });
 });

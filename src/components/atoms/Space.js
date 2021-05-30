@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import RadiatorNode from '../../components/atoms/RadiatorNode';
+import Radiator from '../../components/atoms/Radiator';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import { nanoid } from "nanoid";
@@ -65,18 +65,15 @@ export default function Space(props) {
   return (
     <Box key={nanoid()} className={classes.space} flexDirection="column" p={1}>
       <Typography variant="caption" align="center">{props.space?.name}</Typography>
-      {props.space.radiators?.map((radiator) => 
-        <Box key={nanoid()} className={classes.inlineFlex}>
-          {radiator.nodes.map((node) => 
-            <RadiatorNode 
-              key={nanoid()}
-              now={props.now} 
-              radiatorNumber={radiator.number}
-              node={node} 
-            /> 
-          )}
-        </Box>
-      )}
+      <Box key={nanoid()} className={classes.inlineFlex}>
+        {props.space.radiators?.map((radiator) => 
+          <Radiator 
+            key={nanoid()}
+            now={props.now} 
+            radiator={radiator}
+          /> 
+        )}
+      </Box>
     </Box>
   );
 }

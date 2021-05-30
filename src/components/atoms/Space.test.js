@@ -45,12 +45,12 @@ describe("Space component", () => {
   });
   afterEach(cleanup);
 
-  it("exists on basic render, and the sample space has 3 radiator nodes", () => {
+  it("exists on basic render, and the sample space has 2 radiators", () => {
     act(() => {
-      const { nodeAsFragment } = render(<Space now={now} space={sampleSpace} />);
+      render(<Space now={now} space={sampleSpace} />);
     });
 
     // 3 nodes in the sample radiator
-    expect(screen.getAllByLabelText('Radiator Node').length).toBe(3);
+    expect(screen.getAllByLabelText('Radiator').length).toBe(2);
   });
 });

@@ -85,11 +85,11 @@ describe("Unit component", () => {
   });
   afterEach(cleanup);
 
-  it("exists on basic render, and the sample unit has 4 radiator nodes", () => {
+  it("exists on basic render, and the sample unit has 4 radiators", () => {
     act(() => {
-      const { nodeAsFragment } = render(<Unit now={now} unit={sampleUnit} />);
+      render(<Unit now={now} unit={sampleUnit} />);
     });
 
-    expect(screen.getAllByLabelText('Radiator Node').length).toBe(4);
+    expect(screen.getAllByLabelText('Radiator').length).toBe(4);
   });
 });

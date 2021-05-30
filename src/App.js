@@ -12,7 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import Building from "./components/pages/Building";
 import ApartmentAppBar from "./components/molecules/ApartmentAppBar";
 import sampleBuilding from "./1234_Test_Street.json";
-
+import Legend from './components/pages/Legend';
 
 
 const theme = createMuiTheme({
@@ -120,6 +120,9 @@ function App() {
       <Container disableGutters maxWidth="lg">
         <Paper className={classes.paper}>
           <Building now={currentBuilding.retrieved_at} building={currentBuilding} />
+        </Paper>
+        <Paper className={classes.paper}>
+          <Legend />
         </Paper>
       </Container>
     </ThemeProvider>

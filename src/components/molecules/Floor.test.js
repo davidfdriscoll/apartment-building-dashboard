@@ -2,10 +2,11 @@ import React from "react";
 import { render, screen, cleanup } from "@testing-library/react";
 import { act } from 'react-dom/test-utils';
 import Floor from "./Floor";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
 const now = 1617840940000;
 
-const sampleFloor =       {
+const sampleFloor =  {
    "level" : 1,
    "name" : "1",
    "spaces" : [],
@@ -192,17 +193,25 @@ const sampleFloor =       {
    ]
 };
 
+const SizeWrapper = (props) => {
+  const theme = createMuiTheme({
+    props: { MuiWithWidth: { initialWidth: "sm" } },
+  });
+
+  return <MuiThemeProvider theme={theme}>{props.children}</MuiThemeProvider>;
+};
+
 describe("Floor component", () => {
   beforeEach(() => {
     jest.useFakeTimers();
   });
   afterEach(cleanup);
 
-  it("exists on basic render, and the sample floor has 11 radiator nodes", () => {
+  it("exists on basic render, and the sample floor has 11 radiators", () => {
     act(() => {
-      const { nodeAsFragment } = render(<Floor now={now} floor={sampleFloor} />);
+      render(<Floor now={now} floor={sampleFloor} />, { wrapper: SizeWrapper });
     });
 
-    expect(screen.getAllByLabelText('Radiator Node').length).toBe(11);
+    expect(screen.getAllByLabelText('Radiator').length).toBe(10);
   });
 });

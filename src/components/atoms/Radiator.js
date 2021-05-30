@@ -10,20 +10,33 @@ import Paper from '@material-ui/core/Paper';
 
 import { nanoid } from "nanoid";
 
-import StyledRadiatorNodeIcon from '../../components/atoms/StyledRadiatorNodeIcon';
+import StyledRadiatorIcon from '../../components/atoms/StyledRadiatorIcon';
 import RadiatorPopperText from '../../components/atoms/RadiatorPopperText';
 
+import isColdNode from '../../components/atoms/isColdNode';
+import isOfflineNode from '../../components/atoms/isOfflineNode';
 
-// This component renders a single radiator node. It takes three props: 
 
-// node: a single node object with four entries, e.g.
+// This component renders a single radiator. It takes two props: 
+
+// radiator: a single radiator object composed of a radiator number and nodes with four properties, e.g.
 // {
-//   "last_message" : 1617840671000,
-//   "lora_euid" : "D1E720CCCC347E6F",
-//   "radiator_temperature" : 215,
-//   "room_temperature" : 71
+//   "nodes" : [
+//      {
+//         "last_message" : 1617840671000,
+//         "lora_euid" : "D1E720CCCC347E6F",
+//         "radiator_temperature" : 215,
+//         "room_temperature" : 71
+//      },
+//      {
+//         "last_message" : 1617840671000,
+//         "lora_euid" : "3C53C5A4B807AD39",
+//         "radiator_temperature" : 215,
+//         "room_temperature" : 71
+//      }
+//   ],
+//   "number" : 1
 // },
-// radiatorNumber: the radiator number (i.e. to which radiator this node belongs), and
 // now: the current time in unix epoch.
 
 
@@ -43,47 +56,37 @@ import RadiatorPopperText from '../../components/atoms/RadiatorPopperText';
   // room temperature outside bounds of 65-80 F
 // These icons and styling are created in a helper component StyledRadiatorNodeIcon
 
-const radiatorMin = 205;
-const radiatorMax = 225;
-const roomMin = 65;
-const roomMax = 80;
-
-const lastMessageMax = 10 * 60 * 10000; // 10 minutes -> milliseconds
- 
 const useStyles = makeStyles((theme) => ({
   button: {
     padding: 0,
   },
 }));
 
-export default function RadiatorNode(props) {
+export default function Radiator(props) {
   const classes = useStyles();
 
-  const coldNode = 
-    props.node.radiator_temperature < radiatorMin ||
-    props.node.radiator_temperature > radiatorMax ||
-    props.node.room_temperature < roomMin ||
-    props.node.room_temperature > roomMax;
-  const offlineNode = (props.now - props.node.last_message) > lastMessageMax;
+  const coldRadiator = props.radiator.nodes.filter((node) => isColdNode(node)).length > 0;
+  const offlineRadiator = props.radiator.nodes.filter((node) => isOfflineNode(props.now, node)).length > 0;
 
   return (
     <PopupState variant="popper" popupId={nanoid()}>
       {(popupState) => (
         <div>
           <IconButton className={classes.button} {...bindToggle(popupState)}>
-            <StyledRadiatorNodeIcon coldNode={coldNode} offlineNode={offlineNode} />
+            <StyledRadiatorIcon coldRadiator={coldRadiator} offlineRadiator={offlineRadiator} width={props.radiator.nodes.length} />
           </IconButton>
           <Popper {...bindPopper(popupState)} transition>
             {({ TransitionProps }) => (
               <ClickAwayListener onClickAway={popupState.close}>
                 <Fade {...TransitionProps} timeout={350}>
-                  <Paper>
+                  <Paper 
+                    elevation={3}
+                  >
                     <RadiatorPopperText 
                       now={props.now}
-                      node={props.node}
-                      radiatorNumber={props.radiatorNumber}
-                      coldNode={coldNode}
-                      offlineNode={offlineNode}
+                      radiator={props.radiator}
+                      coldRadiator={coldRadiator}
+                      offlineRadiator={offlineRadiator}
                     />
                   </Paper>
                 </Fade>

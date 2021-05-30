@@ -1,91 +1,96 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import SvgIcon from '@material-ui/core/SvgIcon';
-import ReportRoundedIcon from '@material-ui/icons/ReportRounded';
-import { ReactComponent as RadiatorNodeIcon } from '../../icons/radiator.svg';
-import clsx from 'clsx';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import SvgIcon from "@material-ui/core/SvgIcon";
+import ReportRoundedIcon from "@material-ui/icons/ReportRounded";
+import { ReactComponent as RadiatorNodeIcon } from "../../icons/radiator.svg";
+import clsx from "clsx";
 
 /* Given props of coldRadiator, offlineRadiator, coldRadiatorDemo, and devicelessRadiator, and icon size 'small', return the appropriate icon with styling */
 
 const useStyles = makeStyles((theme) => ({
-  stretchRadiator: props => ({
+  stretchRadiator: (props) => ({
     width: props.width > 1 && 72,
   }),
   goodRadiator: {
-    color: '#88B447',
+    color: "#88B447",
   },
   coldRadiator: {
-    borderRadius: '50%',
-    boxShadow: '0 0 0 0 rgba(0, 0, 0, 1)',
-    transform: 'scale(1)',
-    animation: '$pulse 2s infinite',  
+    borderRadius: "50%",
+    boxShadow: "0 0 0 0 rgba(0, 0, 0, 1)",
+    transform: "scale(1)",
+    animation: "$pulse 2s infinite",
   },
   "@keyframes pulse": {
     "0%": {
-      transform: 'scale(0.95)',
-      boxShadow: '0 0 0 0 rgba(0, 0, 0, 0.7)',
-    },  
+      transform: "scale(0.95)",
+      boxShadow: "0 0 0 0 rgba(0, 0, 0, 0.7)",
+    },
     "70%": {
-      transform: 'scale(1)',
-      boxShadow: '0 0 0 10px rgba(0, 0, 0, 0)',
-    },  
+      transform: "scale(1)",
+      boxShadow: "0 0 0 10px rgba(0, 0, 0, 0)",
+    },
     "100%": {
-      transform: 'scale(0.95)',
-      boxShadow: '0 0 0 0 rgba(0, 0, 0, 0)',
+      transform: "scale(0.95)",
+      boxShadow: "0 0 0 0 rgba(0, 0, 0, 0)",
     },
   },
 }));
 
 export default function StyledRadiatorIcon(props) {
   const classes = useStyles(props);
-  const size = props.small ? 'small' : 'large';
+  const size = props.small ? "small" : "large";
 
-  if(props.coldRadiator) return (
-    <ReportRoundedIcon
-    aria-label='Radiator'
-    fontSize = {size}
-    preserveAspectRatio='none'
-    color = 'error'
-    className = {clsx(classes.stretchRadiator, classes.coldRadiator)}
-  />     
-  );
-  if(props.offlineRadiator) return (
-    <SvgIcon 
-      aria-label='Radiator'
-      component={RadiatorNodeIcon} 
-      viewBox="0 0 600 600" 
-      preserveAspectRatio='none'
-      fontSize = {size}
-      color = 'disabled'
-      className={classes.stretchRadiator}
-    />   
-  );
-  if(props.coldRadiatorDemo) return (
-    <ReportRoundedIcon
-      aria-label='Radiator'
-      fontSize = {size}
-      preserveAspectRatio='none'
-      color = 'error'
-    />   
-  );
-  if(props.devicelessRadiator) return (
-    <SvgIcon 
-      aria-label='Radiator'
-      component={RadiatorNodeIcon} 
-      viewBox="0 0 600 600" 
-      preserveAspectRatio='none'
-      fontSize = {size}
-      className={clsx(classes.stretchRadiator)} 
-    />
-  );
-  if(!props.coldRadiator && !props.offlineRadiator) return (
-    <SvgIcon 
-      aria-label='Radiator'
-      component={RadiatorNodeIcon} 
-      viewBox="0 0 600 600" 
-      preserveAspectRatio='none'
-      fontSize = {size}
-      className={clsx(classes.stretchRadiator, classes.goodRadiator)} 
-    />
-  );
+  if (props.coldRadiator)
+    return (
+      <ReportRoundedIcon
+        aria-label="Radiator"
+        fontSize={size}
+        preserveAspectRatio="none"
+        color="error"
+        className={clsx(classes.stretchRadiator, classes.coldRadiator)}
+      />
+    );
+  if (props.offlineRadiator)
+    return (
+      <SvgIcon
+        aria-label="Radiator"
+        component={RadiatorNodeIcon}
+        viewBox="0 0 600 600"
+        preserveAspectRatio="none"
+        fontSize={size}
+        color="disabled"
+        className={classes.stretchRadiator}
+      />
+    );
+  if (props.coldRadiatorDemo)
+    return (
+      <ReportRoundedIcon
+        aria-label="Radiator"
+        fontSize={size}
+        preserveAspectRatio="none"
+        color="error"
+      />
+    );
+  if (props.devicelessRadiator)
+    return (
+      <SvgIcon
+        aria-label="Radiator"
+        component={RadiatorNodeIcon}
+        viewBox="0 0 600 600"
+        preserveAspectRatio="none"
+        fontSize={size}
+        className={clsx(classes.stretchRadiator)}
+      />
+    );
+  if (!props.coldRadiator && !props.offlineRadiator)
+    return (
+      <SvgIcon
+        aria-label="Radiator"
+        component={RadiatorNodeIcon}
+        viewBox="0 0 600 600"
+        preserveAspectRatio="none"
+        fontSize={size}
+        className={clsx(classes.stretchRadiator, classes.goodRadiator)}
+      />
+    );
 }

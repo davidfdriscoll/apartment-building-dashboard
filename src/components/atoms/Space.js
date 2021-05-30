@@ -1,8 +1,8 @@
-import React from 'react';
-import Box from '@material-ui/core/Box';
-import Radiator from '../../components/atoms/Radiator';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import React from "react";
+import Box from "@material-ui/core/Box";
+import Radiator from "../../components/atoms/Radiator";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
 import { nanoid } from "nanoid";
 
 /*
@@ -47,15 +47,15 @@ radiators, an array of objects, where each object represents an array of nodes.
 
 The function passes each node onto RadiatorNode, displaying distinct nodes vertically and extra long nodes horizontally. 
 The name of the space is placed at the top of the box.
-*/ 
+*/
 
 const useStyles = makeStyles((theme) => ({
   space: {
-    display: 'inline-flex',
-    alignItems: 'center',
+    display: "inline-flex",
+    alignItems: "center",
   },
   inlineFlex: {
-    display: 'inline-flex',
+    display: "inline-flex",
   },
 }));
 
@@ -64,15 +64,13 @@ export default function Space(props) {
 
   return (
     <Box key={nanoid()} className={classes.space} flexDirection="column" p={1}>
-      <Typography variant="caption" align="center">{props.space?.name}</Typography>
+      <Typography variant="caption" align="center">
+        {props.space?.name}
+      </Typography>
       <Box key={nanoid()} className={classes.inlineFlex}>
-        {props.space.radiators.map((radiator) => 
-          <Radiator 
-            key={nanoid()}
-            now={props.now} 
-            radiator={radiator}
-          /> 
-        )}
+        {props.space.radiators.map((radiator) => (
+          <Radiator key={nanoid()} now={props.now} radiator={radiator} />
+        ))}
       </Box>
     </Box>
   );

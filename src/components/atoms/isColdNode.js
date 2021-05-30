@@ -6,8 +6,10 @@ const roomMin = 65;
 const roomMax = 80;
 
 export default function isColdNode(node) {
-  return (node.radiator_temperature < radiatorMin ||
+  return (
+    node.radiator_temperature < radiatorMin ||
     node.radiator_temperature > radiatorMax ||
     node.room_temperature < roomMin ||
-    node.room_temperature > roomMax);
+    node.room_temperature > roomMax
+  );
 }

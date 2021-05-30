@@ -14,23 +14,23 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
-import clsx from 'clsx';
+import clsx from "clsx";
 
 import formatDateAndTime from "../../components/atoms/formatDateAndTime";
 
 const useStyles = makeStyles((theme) => ({
   iconButton: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       marginRight: theme.spacing(2),
-    },  
+    },
     color: theme.palette.common.white,
   },
   appBarFont: {
     color: theme.palette.common.white,
-    textTransform: 'uppercase',
-    letterSpacing: '1',
+    textTransform: "uppercase",
+    letterSpacing: "1",
     fontSize: "16px",
-    fontWeight: '600',
+    fontWeight: "600",
   },
   buildingName: {
     flexGrow: 1,
@@ -43,14 +43,19 @@ export default function ApartmentAppBar(props) {
   const humanReadableNow = formatDateAndTime(
     new Date(props.building.retrieved_at)
   );
-  
+
   return (
     <AppBar position="static">
       <Toolbar>
-        <Typography variant="h6" className={clsx(classes.buildingName, classes.appBarFont)}>
+        <Typography
+          variant="h6"
+          className={clsx(classes.buildingName, classes.appBarFont)}
+        >
           {props.building.name}
         </Typography>
-        <Typography variant="h6" className={classes.appBarFont}>{humanReadableNow}</Typography>
+        <Typography variant="h6" className={classes.appBarFont}>
+          {humanReadableNow}
+        </Typography>
       </Toolbar>
     </AppBar>
   );

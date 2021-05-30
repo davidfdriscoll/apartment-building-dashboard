@@ -11,7 +11,7 @@ It receives as props floor and now
 */
 
 export default function FloorElements(props) {
-  return(
+  return (
     <>
       <Typography variant="h4" color="primary" p={3}>
         {props.floor.name}

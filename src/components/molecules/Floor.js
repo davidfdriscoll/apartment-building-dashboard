@@ -1,7 +1,7 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
 import Hidden from "@material-ui/core/Hidden";
-import FloorElements from '../../components/atoms/FloorElements';
+import FloorElements from "../../components/atoms/FloorElements";
 import { makeStyles } from "@material-ui/core/styles";
 import { nanoid } from "nanoid";
 
@@ -56,9 +56,14 @@ export default function Floor(props) {
 
   return (
     <div>
-    {/* mobile view */}
+      {/* mobile view */}
       <Hidden mdUp>
-        <Box key={nanoid()} className={classes.floor} width="100%" flexDirection="column">
+        <Box
+          key={nanoid()}
+          className={classes.floor}
+          width="100%"
+          flexDirection="column"
+        >
           <FloorElements now={props.now} floor={props.floor} />
         </Box>
       </Hidden>

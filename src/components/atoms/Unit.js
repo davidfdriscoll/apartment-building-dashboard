@@ -36,16 +36,16 @@ The function renders as a horizontal flexbox, with the name and each space.
 
 const useStyles = makeStyles((theme) => ({
   unit: {
-    display: "inline-flex",    
+    display: "inline-flex",
   },
   spaces: {
     display: "inline-flex",
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down("md")]: {
       flexGrow: 1,
     },
-    [theme.breakpoints.down('xs')]: {
-      flexWrap: 'wrap',
-    }
+    [theme.breakpoints.down("xs")]: {
+      flexWrap: "wrap",
+    },
   },
   unitName: {
     alignSelf: "center",
@@ -69,7 +69,12 @@ export default function Unit(props) {
       <Typography variant="h5" className={classes.unitName} p={1}>
         {props.unit.name}
       </Typography>
-      <Box key={nanoid()} flexDirection="row" justifyContent="center" className={classes.spaces}>
+      <Box
+        key={nanoid()}
+        flexDirection="row"
+        justifyContent="center"
+        className={classes.spaces}
+      >
         {props.unit.spaces.map((space) => (
           <Space key={nanoid()} now={props.now} space={space} />
         ))}

@@ -14,14 +14,14 @@ for timeStyle and dateStyle in Safari and Firefox.
 
 export default function formatDateAndTime(time) {
   const opts = {
-    timeZone: "America/New_York", 
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
+    timeZone: "America/New_York",
+    year: "numeric",
+    month: "short",
+    day: "numeric",
     hour: "numeric",
     minute: "numeric",
-    second: "numeric"
-  }
-  
-  return( new Intl.DateTimeFormat( "en-US", opts ).format(time) ); 
+    second: "numeric",
+  };
+
+  return new Intl.DateTimeFormat("en-US", opts).format(time);
 }
